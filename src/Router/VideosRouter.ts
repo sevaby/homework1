@@ -91,7 +91,6 @@ VideosRouter.put('/:id', (req: Request, res: Response) => {
             return
         }
 
-
         const foundVideo = db.videos.find(c => c.id.toString() === req.params.id);
 
         if (!foundVideo) {
