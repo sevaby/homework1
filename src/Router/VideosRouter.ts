@@ -45,8 +45,34 @@ VideosRouter.get('/:id', (req: RequestWithParams<URIParamsVideoIdModel>,
     })
 
 VideosRouter.post('/', (req: RequestWithBody<CreateVideoModel>, res: Response) => {
+    if (req.body.title === null) {
+        const nullTitleError = {
+            errorsMessages: [{
+                message: 'Title cannot be null',
+                field: 'title'
+            }]
+        };
 
+        res
+            .status(HTTP_STATUSES.BAD_REQUEST_400)
+            .json(nullTitleError);
+        return;
+    }
+    if (req.body.author === null) {
+        const nullTitleError = {
+            errorsMessages: [{
+                message: 'Author cannot be null',
+                field: 'author'
+            }]
+        };
+
+        res
+            .status(HTTP_STATUSES.BAD_REQUEST_400)
+            .json(nullTitleError);
+        return;
+    }
         const { title, author, availableResolutions} = req.body;
+
 
         clearErrorsMessages()
 
@@ -72,6 +98,32 @@ VideosRouter.post('/', (req: RequestWithBody<CreateVideoModel>, res: Response) =
     })
 
 VideosRouter.put('/:id', (req: Request, res: Response) => {
+    if (req.body.title === null) {
+        const nullTitleError = {
+            errorsMessages: [{
+                message: 'Title cannot be null',
+                field: 'title'
+            }]
+        };
+
+        res
+            .status(HTTP_STATUSES.BAD_REQUEST_400)
+            .json(nullTitleError);
+        return;
+    }
+    if (req.body.author === null) {
+        const nullTitleError = {
+            errorsMessages: [{
+                message: 'Author cannot be null',
+                field: 'author'
+            }]
+        };
+
+        res
+            .status(HTTP_STATUSES.BAD_REQUEST_400)
+            .json(nullTitleError);
+        return;
+    }
         const { title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate } = req.body;
 
         clearErrorsMessages()
