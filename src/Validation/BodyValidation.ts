@@ -64,7 +64,7 @@ function isDateString(value: string | number | Date) {
     }
 }
 
-export function isCorrectDate(dateString: string | number | Date): { errorsMessages: { message: string, field: string }[] } {
+export function isCorrectDate(dateString: string ): { errorsMessages: { message: string, field: string }[] } {
     if (!isDateString(dateString)) {
         ApiErrorResult.errorsMessages.push({
             message: 'publicationDate' + ' wrong data',

@@ -104,7 +104,7 @@ VideosRouter.put('/:id', (req: Request, res: Response) => {
         foundVideo.availableResolutions = availableResolutions;
         foundVideo.canBeDownloaded = canBeDownloaded ?? false;
         foundVideo.minAgeRestriction = minAgeRestriction;
-        foundVideo.publicationDate = publicationDate.toISOString();
+        foundVideo.publicationDate = publicationDate;
 
         res.status(HTTP_STATUSES.NO_CONTENT_204).send();
     })

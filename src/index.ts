@@ -4,7 +4,7 @@ import {db} from "./DB/db";
 
 export const app = express();
 
-const port = 3006;
+const port = 3005;
 
 app.use(json());
 export const HTTP_STATUSES = {
