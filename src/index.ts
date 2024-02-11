@@ -16,10 +16,9 @@ export const HTTP_STATUSES = {
     NOT_FOUND_ERROR_404: 404,
 }
 
-app.use('/hometask_01/api/videos', VideosRouter)
+app.use('/videos', VideosRouter)
 
-
-app.delete('/hometask_01/api/testing/all-data', (req: Request, res: Response) => {
+app.delete('/testing/all-data', (req: Request, res: Response) => {
     db.videos = [];
     res.sendStatus(HTTP_STATUSES.NO_CONTENT_204);
 })
