@@ -4,6 +4,14 @@ let ApiErrorResult: { errorsMessages: { message: string, field: string }[] } = {
 
 export function validateSimple(value: string, fieldName: string, maxLength: number)
     : { errorsMessages: { message: string, field: string }[] } {
+    if (value === null) {
+        ApiErrorResult.errorsMessages.push({
+            message: fieldName + ' is cannot be null',
+            field: fieldName,
+        });
+        return ApiErrorResult;
+    }
+
     if (!value) {
         ApiErrorResult.errorsMessages.push({
             message: fieldName + ' is required',
@@ -69,6 +77,21 @@ export function isCorrectDate(dateString: string ): { errorsMessages: { message:
         ApiErrorResult.errorsMessages.push({
             message: 'publicationDate' + ' wrong data',
             field: 'publicationDate'
+        })
+    }
+    return ApiErrorResult;
+}
+
+export function isCorrectCanBeDownloaded(canBeDownloaded: any)
+{
+    if (canBeDownloaded === null) {
+        return ApiErrorResult;
+    }
+    if (typeof canBeDownloaded !== 'boolean')
+    {
+        ApiErrorResult.errorsMessages.push({
+            message: 'canBeDownloaded' + ' wrong data' + canBeDownloaded,
+            field: 'canBeDownloaded'
         })
     }
     return ApiErrorResult;

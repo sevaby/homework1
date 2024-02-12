@@ -5,7 +5,7 @@ import {URIParamsVideoIdModel} from "../Models/URIParamsVideoIdModel";
 import {CreateVideoModel} from "../Models/CreateVideoModel";
 import {
     clearErrorsMessages,
-    isCorrectAge,
+    isCorrectAge, isCorrectCanBeDownloaded,
     isCorrectDate,
     validateEnum,
     validateSimple
@@ -45,39 +45,13 @@ VideosRouter.get('/:id', (req: RequestWithParams<URIParamsVideoIdModel>,
     })
 
 VideosRouter.post('/', (req: RequestWithBody<CreateVideoModel>, res: Response) => {
-    if (req.body.title === null) {
-        const nullTitleError = {
-            errorsMessages: [{
-                message: 'Title cannot be null',
-                field: 'title'
-            }]
-        };
-
-        res
-            .status(HTTP_STATUSES.BAD_REQUEST_400)
-            .json(nullTitleError);
-        return;
-    }
-    if (req.body.author === null) {
-        const nullTitleError = {
-            errorsMessages: [{
-                message: 'Author cannot be null',
-                field: 'author'
-            }]
-        };
-
-        res
-            .status(HTTP_STATUSES.BAD_REQUEST_400)
-            .json(nullTitleError);
-        return;
-    }
         const { title, author, availableResolutions} = req.body;
 
 
         clearErrorsMessages()
 
-        let errors = validateSimple(title.trim(), 'title', 40)
-        validateSimple(author.trim(), 'author', 20)
+        let errors = validateSimple(title, 'title', 40)
+        validateSimple(author, 'author', 20)
         validateEnum(availableResolutions, 'availableResolutions', Object.values(Resolutions))
 
 
@@ -98,43 +72,25 @@ VideosRouter.post('/', (req: RequestWithBody<CreateVideoModel>, res: Response) =
     })
 
 VideosRouter.put('/:id', (req: Request, res: Response) => {
-    if (req.body.title === null) {
-        const nullTitleError = {
-            errorsMessages: [{
-                message: 'Title cannot be null',
-                field: 'title'
-            }]
-        };
 
-        res
-            .status(HTTP_STATUSES.BAD_REQUEST_400)
-            .json(nullTitleError);
-        return;
-    }
-    if (req.body.author === null) {
-        const nullTitleError = {
-            errorsMessages: [{
-                message: 'Author cannot be null',
-                field: 'author'
-            }]
-        };
-
-        res
-            .status(HTTP_STATUSES.BAD_REQUEST_400)
-            .json(nullTitleError);
-        return;
-    }
-        const { title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate } = req.body;
+        let { title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate } = req.body;
 
         clearErrorsMessages()
-        let errors = validateSimple(title.trim(), 'title', 40)
-        validateSimple(author.trim(), 'author', 20)
+        let errors = validateSimple(title, 'title', 40)
+        validateSimple(author, 'author', 20)
         validateEnum(availableResolutions, 'availableResolutions', Object.values(Resolutions))
 
         if (minAgeRestriction) {
             isCorrectAge(minAgeRestriction, 'minAgeRestriction', 0, 18)
         }
         isCorrectDate(publicationDate)
+        if (canBeDownloaded) {
+            isCorrectCanBeDownloaded(canBeDownloaded)
+        }
+        else {
+            canBeDownloaded = false
+        }
+
 
         if (errors.errorsMessages.length) {
             res
