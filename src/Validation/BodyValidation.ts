@@ -63,21 +63,15 @@ export function isCorrectAge(age: number, fieldName: string, minAge: number, max
     return ApiErrorResult;
     }
 
-function isDateString(value: string | number | Date) {
-    try {
-        const dateObject = new Date(value);
-        return !isNaN(dateObject.getTime());
-    } catch (error) {
-        return false;
-    }
-}
-
-export function isCorrectDate(dateString: string ): { errorsMessages: { message: string, field: string }[] } {
-    if (!isDateString(dateString)) {
-        ApiErrorResult.errorsMessages.push({
-            message: 'publicationDate' + ' wrong data',
-            field: 'publicationDate'
-        })
+export function isCorrectDate(publicationDate: string ): { errorsMessages: { message: string, field: string }[] } {
+    if (publicationDate) {
+        const iso8601Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+        if (!iso8601Regex.test(publicationDate)) {
+            ApiErrorResult.errorsMessages.push({
+                message: 'publicationDate' + ' wrong data ',
+                field: 'publicationDate'
+            })
+        }
     }
     return ApiErrorResult;
 }

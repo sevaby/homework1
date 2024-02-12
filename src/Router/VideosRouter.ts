@@ -91,7 +91,6 @@ VideosRouter.put('/:id', (req: Request, res: Response) => {
             canBeDownloaded = false
         }
 
-
         if (errors.errorsMessages.length) {
             res
                 .status(HTTP_STATUSES.BAD_REQUEST_400)
